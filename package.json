@@ -1,0 +1,50 @@
+{
+  "name": "rhmap-mobile-monitor",
+  "version": "0.1.0",
+  "description": "application that provides insight into your rhmap instance on the go",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run compile && http-server ./www",
+    "compile": "npm run compile-ts && npm run compile-vendor",
+    "compile-ts": "npm run tsc && npm run bundle",
+    "compile-vendor": "browserify -o www/dist/vendor.js -r bluebird -r redux -r redux-thunk -r redux-logger -r react-redux -r xtend -r react-dom -r react -r react-router",
+    "tsc": "tsc",
+    "cordova": "cordova",
+    "ios-sim": "npm run compile && cordova platform add ios ; cordova run ios --emulator",
+    "bundle": "browserify -e src/index.js -o www/dist/bundle.js --no-bundle-external --debug"
+  },
+  "author": "Evan Shortiss",
+  "license": "MIT",
+  "devDependencies": {
+    "browserify": "~13.1.1",
+    "cordova": "~6.5.0",
+    "http-server": "~0.9.0",
+    "typescript": "~2.1.4"
+  },
+  "dependencies": {
+    "@types/bluebird": "~3.0.37",
+    "@types/react": "~0.14.55",
+    "@types/react-dom": "~0.14.19",
+    "@types/react-redux": "~4.4.36",
+    "@types/react-router": "~2.0.41",
+    "@types/redux": "~3.6.0",
+    "@types/redux-logger": "~2.6.34",
+    "bluebird": "~3.4.7",
+    "react": "~15.4.1",
+    "react-dom": "~15.4.1",
+    "react-redux": "~5.0.2",
+    "react-router": "~3.0.0",
+    "redux": "~3.6.0",
+    "redux-logger": "~2.8.1",
+    "redux-thunk": "~2.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evanshortiss/rhmap-mobile-monitor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/evanshortiss/rhmap-mobile-monitor/issues"
+  },
+  "homepage": "https://github.com/evanshortiss/rhmap-mobile-monitor#readme"
+}

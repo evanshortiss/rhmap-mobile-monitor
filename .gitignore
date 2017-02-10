@@ -1,0 +1,14 @@
+node_modules/
+www/dist/
+
+platforms/
+plugins/
+
+.DS_Store
+
+*.js
+*.js.map
+*.log
+*.rdb
+
+.vscode
