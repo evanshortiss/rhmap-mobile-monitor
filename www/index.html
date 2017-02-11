@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="css/semantic.css">
 		<link rel="stylesheet" href="css/index.css">
 		<link rel="stylesheet" href="css/overpass.css">
-		<title>Sync Redux Application</title>
+		<title>RHMAP Mobile Monitor</title>
 	</head>
 	<body>
 		<div id="sync-redux-app"></div>
@@ -18,14 +18,13 @@
 		<!-- cordova library - will 404 unless running on device -->
 		<script type="text/javascript" src="cordova.js"></script>
 
-		<script
-			src="https://code.jquery.com/jquery-2.2.4.min.js"
-			integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-  		crossorigin="anonymous">
-		</script>
-
 		<!-- bundle of our dependencies - created using browserify "require" -->
 		<script src="./dist/vendor.js"></script>
+
+		<!-- Make jQuery global -->
+		<script>
+			window.$ = window.jQuery = require('jquery');
+		</script>
 
 		<!-- bundle of our app source - created using typescript & browserify -->
 		<script src="./dist/bundle.js"></script>
