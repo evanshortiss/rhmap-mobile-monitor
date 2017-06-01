@@ -1,13 +1,19 @@
 import { deviceIsIos } from '../util';
+import * as actions from '../actions/menu';
+import store from '../store';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { HeaderProps } from '../interfaces/views';
 import { GlobalState } from '../interfaces/global';
 
 class Header extends React.Component <HeaderProps, undefined> {
+  openMenu () {
+    store.dispatch(actions.toggleMenu());
+  }
+
   render() {
 
-    const menuHidden = !this.props.menuVisible;
+    const menuHidden = !this.props.showMenuIcon;
     const hideSpinner = !this.props.syncing;
 
     let titleClasses = [
@@ -19,9 +25,10 @@ class Header extends React.Component <HeaderProps, undefined> {
     return (
       <div className={'app-header ui padded grid ' + (deviceIsIos() ? 'ios' : '')}>
         <div
+          onClick={this.openMenu}
           style={{margin: 'auto', paddingLeft: '3vw !important', fontSize: '1.5em'}}
           className={'two wide column colors rh-white ' + (menuHidden ? 'hidden' : '')}>
-          <i className="content icon"></i>
+          <i className="menu-icon content icon"></i>
         </div>
         <div className={titleClasses.join(' ')}>
           <img src="img/logo.png"/>
@@ -47,13 +54,13 @@ class Header extends React.Component <HeaderProps, undefined> {
   }
 }
 
-function mapStateToProps( state: GlobalState ): HeaderProps {
+function mapStateToProps ( state: GlobalState ): HeaderProps {
   return {
     // Menu is only visible once resources are present (app is loaded)
     // Not the best way to check, but this is early days so...
-    menuVisible: Object.keys(state.resources.records).length !== 0,
+    showMenuIcon: Object.keys(state.resources.records).length !== 0,
     syncing: state.sync.isSyncing
-  };
+  } as HeaderProps;
 }
 
 export default connect(mapStateToProps)(Header);

@@ -8,6 +8,7 @@ import store from '../store';
 import App from './App';
 import Loader from './Loader';
 import EnvironmentView from './Environment';
+import FeedView from './Feed';
 import { LoginView } from './Login';
 
 export class Root extends React.Component<undefined, undefined> {
@@ -19,6 +20,7 @@ export class Root extends React.Component<undefined, undefined> {
           <Route component={App}>
             <Redirect from="/" to="/login"/>
             <Route path="environments" component={EnvironmentView}/>
+            <Route path="newsfeed" component={FeedView}/>
             <Route path="login" component={LoginView}/>
           </Route>
         </Router>

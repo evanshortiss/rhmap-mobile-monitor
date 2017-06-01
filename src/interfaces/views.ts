@@ -21,13 +21,7 @@ export interface EnvironmentViewState {
   selectedEnv: string
 }
 
-export interface LoginViewState {
-  loginEnabled: boolean
-  username: string
-  password: string
-}
-
 export interface HeaderProps {
-  menuVisible: boolean
+  showMenuIcon: boolean
   syncing: boolean
 }

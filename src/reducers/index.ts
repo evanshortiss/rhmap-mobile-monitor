@@ -2,8 +2,10 @@
 import { combineReducers } from 'redux';
 
 import resources from './resources-sync';
+import newsfeed from './newsfeed-sync';
 import loader from './loader';
 import sync from './sync';
+import menu from './menu';
 
 // This will be a global store for now. It will look like:
 // {
@@ -13,7 +15,9 @@ import sync from './sync';
 // }
 // Should create an interface for this probably
 export default combineReducers({
+  menu,
   resources,
+  newsfeed,
   loader,
   sync
 });

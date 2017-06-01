@@ -3,14 +3,15 @@ import * as util from '../util';
 import * as auth from '../auth';
 import * as sync from '../sync';
 import * as la from '../actions/loader';
-
 import store from '../store';
 import historyEngine = require('../history-engine');
 
-import { LoginViewState } from '../interfaces/views';
+interface LoginViewState {
+  loginEnabled: boolean
+  username: string
+  password: string
+}
 
-// 'HelloProps' describes the shape of props.
-// State is never set so we use the 'undefined' type.
 export class LoginView extends React.Component <undefined, LoginViewState> {
   constructor () {
     super()
@@ -21,10 +22,12 @@ export class LoginView extends React.Component <undefined, LoginViewState> {
       password: ''
     };
   }
+
   doLogin (e: any) {
     e.preventDefault();
 
     // If user pressed "enter" the keyboard/cursor might stay active on mobile
+    // This hacky function will ensure it gets dismissed
     util.dismissKeyboard();
 
     const { username, password } = this.state;
@@ -33,30 +36,34 @@ export class LoginView extends React.Component <undefined, LoginViewState> {
 
     auth.performFhAuth(username, password)
       .then(() => store.dispatch(la.updateMessage('Initialising user session')))
-      .then(() => sync.init([{name: 'resources'}], username))
+      .then(() => sync.init([{name: 'resources'}, {name: 'newsfeed'}], username))
       .then(() => historyEngine.push('/environments'))
       .catch((e) => {
+        console.log(e.stack);
         alert('Login failed. ' + e.toString());
       })
       .finally(() => store.dispatch(la.hideLoading()));
   }
+
   onUsernameChange(e: any) { // TODO - should type these correctly...
     this.setState({username: e.target.value} as LoginViewState);
   }
+
   onPasswordChange(e: any) {
     this.setState({password: e.target.value} as LoginViewState);
   }
+
   render() {
     return (
       <div className="login">
-        <form className="ui form" onSubmit={this.doLogin.bind(this)}>
+        <form className="ui form" onSubmit={(e) => { this.doLogin(e) }}>
           <div className="field">
             <h3>Username</h3>
             <input
               type="email"
               required
               value={this.state.username}
-              onChange={this.onUsernameChange.bind(this)}
+              onChange={(e) => { this.onUsernameChange(e) }}
               name="username"
               placeholder="you@acme.com"/>
           </div>
@@ -66,7 +73,7 @@ export class LoginView extends React.Component <undefined, LoginViewState> {
               type="password"
               required
               value={this.state.password}
-              onChange={this.onPasswordChange.bind(this)}
+              onChange={(e) => { this.onPasswordChange(e) }}
               name="password"/>
           </div>
           <div className="centered">

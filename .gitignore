@@ -1,12 +1,13 @@
 node_modules/
-www/dist/
 
 platforms/
 plugins/
 
 .DS_Store
 
-*.js
+www/dist/*.js
+src/*.js
+src/**/*.js
 *.js.map
 *.log
 *.rdb

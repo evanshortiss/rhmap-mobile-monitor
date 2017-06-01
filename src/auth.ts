@@ -8,7 +8,10 @@ export function performFhAuth (username: string, password: string) {
     $fh.auth({
       policyId: 'MonitorAuth',
       clientToken: $fh.getFHParams().appid,
-      params: {username, password}
+      params: {
+        userId: username,
+        password: password
+      }
     }, resolve, reject);
   });
 }

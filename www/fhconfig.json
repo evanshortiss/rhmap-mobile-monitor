@@ -1,8 +1,9 @@
 {
-  "appid": "s7yqghvyw6h2pq36ovinecco",
-  "appkey": "fbfe411cc9a86c219f37da76ae707d2a9d62110",
-  "apptitle": "RHMAP Monitor",
+  "appid": "vvuq7dm6rnmlsaoeurv2p2bh",
+  "appkey": "f8213b04bf379c165efc59db2487e6056b82630e",
+  "apptitle": "RHMAP Mobile",
   "connectiontag": "0.0.1",
-  "host": "https://any.domain.redhatmobile.com",
-  "projectid": "hdQUwSC7lnjH1K3BUaVsydGv"
+  "projectid": "vvuq7dm6rnmlsaoeurv2p2bh",
+	"host": "http://127.0.0.1:8001",
+	"local": "true"
 }

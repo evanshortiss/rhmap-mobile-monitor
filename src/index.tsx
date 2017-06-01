@@ -7,6 +7,9 @@ import store from './store';
 
 import { Root } from './components/Root';
 
+import * as fastclick from 'fastclick';
+fastclick(document.body);
+
 render(
   <Provider store={store}>
     <Root/>

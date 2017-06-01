@@ -8,8 +8,7 @@ import * as sda from '../actions/sync-dataset';
 import * as sa from '../actions/sync';
 import * as la from '../actions/loader';
 
-
-export function init (datasets: Array<{ name: string }>, username: string) {
+export function init (datasets: Array<{ name: string, frequency?: string }>, username: string) {
 
   store.dispatch(
     la.showLoading('Initialising data synchronisation')
@@ -21,6 +20,7 @@ export function init (datasets: Array<{ name: string }>, username: string) {
   });
 
   return new Promise(function (resolve, reject) {
+    const completedSyncDatasets: {[key:string]: boolean} = {};
 
     $fh.sync.notify((e: any) => {
       switch(e.code) {
@@ -35,13 +35,16 @@ export function init (datasets: Array<{ name: string }>, username: string) {
           reject(new Error('sync initialisation failed'));
           break;
         case 'sync_complete':
-          onSyncComplete();
-          if (e.dataset_id === 'resources') {
-            // After first "resources" sync completes we can consider the sync
-            // initialisation completed. Calling this resolve many times has no
-            //side effect (yay promises?), but maybe this could be cleaner
+          onSyncComplete(e.dataset_id);
+
+          // Mark sync for this dataset as completed
+          completedSyncDatasets[e.dataset_id] = true;
+
+          // After all datasets have synced at least once then we can resolve
+          if (Object.keys(completedSyncDatasets).length === datasets.length) {
             resolve();
           }
+
           break;
       }
     });
@@ -50,7 +53,9 @@ export function init (datasets: Array<{ name: string }>, username: string) {
     // Setup our sync loop for each dataset our application requires
     datasets.forEach((d => {
       // TODO: callbacks, meta, query
-      $fh.sync.manage(d.name, {}, {
+      $fh.sync.manage(d.name, {
+        sync_frequency: d.frequency || 30
+      }, {
         username: username
       }, {}, function () {
         console.log(d.name + ' is now managed by sync');
@@ -64,15 +69,15 @@ export function init (datasets: Array<{ name: string }>, username: string) {
    * Each time a sync completes this function will be called.
    * It triggers an action that will in turn load the latest data into stores.
    */
-  function onSyncComplete () {
+  function onSyncComplete (dataset: string) {
     datasets.forEach((d) => {
-      // Refresh the dataset in the store with latest from sync framework
+      // Refresh each dataset in the store with latest from sync framework
       sda.loadDataset(store.dispatch, store.getState, {
         dataset: d.name
       })
     });
 
-    store.dispatch(sda.syncRefreshed());
+    store.dispatch(sda.syncRefreshed(dataset));
     store.dispatch(sa.syncComplete());
   }
 }

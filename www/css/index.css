@@ -3,8 +3,71 @@
   font-weight: 400 !important;
 }
 
+*:not(input) {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
 *:not(.icon) {
   font-family: overpass !important;
+}
+
+.menu-enter {
+  transform: translate3d(-70vw, 0, 0);
+  -webkit-transform: translate3d(-70vw, 0, 0);
+}
+
+.menu-enter.menu-enter-active {
+  transform: translate3d(0, 0, 0);
+  transition: transform 150ms ease-out;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-transition: transform 150ms ease-out;
+}
+
+.menu-leave {
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+.menu-leave.menu-leave-active {
+  transform: translate3d(-70vw, 0, 0);
+  transition: transform 150ms ease-out;
+  -webkit-transform: translate3d(-70vw, 0, 0);
+  -webkit-transition: transform 150ms ease-out;
+}
+
+.newsfeed .entry {
+  color: #0e0e0e;
+  padding: 1em 1em 2em;
+  border-bottom: 1px solid #aaa;
+}
+
+.newsfeed .entry h3 {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.menu {
+  position: absolute;
+  width: 70vw;
+  height: 100vh;
+  background: red;
+  z-index: 100;
+  box-shadow: 1px 0px 15px #333;
+}
+
+.menu ul {
+  padding: 0;
+  color: white;
+  list-style: none;
+  font-size: 140%;
+}
+
+.menu ul li {
+  padding: .5em 1em;
+  margin-bottom: 0.5em;
+  background: rgb(70, 70, 70);
 }
 
 .ui.button {
@@ -183,8 +246,16 @@ input {
 }
 
 .app-header img {
-  margin: 3.5vw 4vw;
+  margin: 5vw 3vw;
   width: 35vw;
+}
+
+.app-header.ios img {
+  margin: 4vw 3vw;
+}
+
+.app-header.ios .sk-circle {
+  top: 3.5vh;
 }
 
 .app-header small {
@@ -202,17 +273,30 @@ input {
   padding-top: 2vh;
 }
 
+.app-header .menu-icon {
+  transform: rotateZ(0deg);
+  transition-duration: 0.5s;
+  transition-property: transform;
+  -webkit-transform: rotateZ(0deg);
+  -webkit-transition-duration: 0.5s;
+  -webkit-transition-property: transform;
+}
+
+.app-header .menu-icon:hover {
+  transform: rotateZ(360deg);
+  -webkit-transform: rotateZ(360deg);
+}
+
 .app-container {
   width: 100vw;
   height: 90vh;
   overflow-y: scroll;
-  overflow-x: none;
-  color: white;
-  background: rgb(70, 70, 70);
-}
+  overflow-x: hidden;
+  color:rgb(70, 70, 70);
+  background: white;
 
-.app-container.ios {
-  height: 88vh;
+  /* allow the bounce effect in iOS - more like a native application */
+  -webkit-overflow-scrolling: touch;
 }
 
 .login {
@@ -283,10 +367,15 @@ input {
 
 .environment select {
   border: 0;
-  margin: 1vh -1vw 0 61vw;
+  margin-left: 67vw;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  width: 35vw;
   font-size: 13pt;
   color: white !important;
-  padding: 0.1em 0 0.3em 0.25em;
+  padding: 0.3em 0 0.3em 0.25em;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 

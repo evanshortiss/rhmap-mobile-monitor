@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { GlobalState } from '../interfaces/global';
+import * as moment from 'moment';
 import {
   EnvironmentViewProps,
   EnvironmentViewState
@@ -24,8 +25,8 @@ class EnvironmentView extends React.Component <EnvironmentViewProps, Environment
     }
 
     this.state = {
-      selectedEnv: props.params.env || getProdEnv()
-    }
+      selectedEnv: props.params.env || getProdEnv() || Object.keys(props.resources)[0]
+    };
   }
   getAppsInState (state: string) {
     const env = this.state.selectedEnv;
@@ -69,8 +70,11 @@ class EnvironmentView extends React.Component <EnvironmentViewProps, Environment
         </select>
 
         <div className="ui padded grid">
+          <div>
+            <p>As of {moment(this.props.resources[selectedEnv].data.ts).format('dddd MMMM Do, hh:mm:ss a')}</p>
+          </div>
           <div className="sixteen wide column">
-            <h3 style={{marginBottom: '0.2em'}} className="header colors rh-white">
+            <h3 style={{marginBottom: '0.2em'}} className="header colors">
               <i className="disk outline icon"></i>
               Resource Usage
             </h3>
@@ -114,7 +118,7 @@ class EnvironmentView extends React.Component <EnvironmentViewProps, Environment
 
         <div className="ui padded grid">
           <div className="sixteen wide column">
-            <h3 style={{marginBottom: '0.2em'}} className="header colors rh-white">
+            <h3 style={{marginBottom: '0.2em'}} className="header colors">
               <i className="power icon"></i>
               Application State
             </h3>

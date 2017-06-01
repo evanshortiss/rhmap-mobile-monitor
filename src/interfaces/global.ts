@@ -1,14 +1,14 @@
 
 import { FHEnvironment } from './datasets/resources';
+import { FeedEntry } from './datasets/newsfeed';
 import { LoaderViewProps } from './loader';
-import { SyncState } from './sync';
+import { SyncState, SyncDatasetState } from './sync';
+import { MenuState } from './menu';
 
 export interface GlobalState {
-  resources: {
-    records: {
-      [key: string]: FHEnvironment
-    }
-  }
+  resources: SyncDatasetState
+  newsfeed: SyncDatasetState
   loader: LoaderViewProps
-  sync: SyncState
+  sync: SyncState,
+  menu: MenuState
 }

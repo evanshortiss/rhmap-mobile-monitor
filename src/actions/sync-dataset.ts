@@ -36,10 +36,11 @@ export const loadDataset: ThunkAction <void, void, { dataset: string }> =
 }
 
 export const SYNC_REFRESHED = 'SYNC_REFRESHED';
-export function syncRefreshed (ts?: Date) {
+export function syncRefreshed (dataset: string, ts?: Date) {
   return {
     type: SYNC_REFRESHED,
     payload: {
+      dataset: dataset,
       lastRefreshTs: ts || new Date()
     }
   }
