@@ -41,6 +41,10 @@ Chromium/Chrome browser.
 You'll need xCode installed on macOS to do this:
 
 ```
+# You only need to run this if platforms/ios does not already exist
+npm run cordova platform add ios
+
+# This will fire up the project in a simulator
 npm run ios-sim
 ```
 
@@ -61,6 +65,11 @@ at startup or when you install a new module
     * start a `http-server` thats serves the app on http://localhost:8080
     * run the TypeScript watcher so if any files are changed they get recompiled
     * run the `browserify` watcher (`watchify`) so it regenerates our bundle when the TypeScript watcher updates JavaScript files
+
+The entry point for the application is `index.tsx` - in here you'll find the
+code tha performs an initial `React.render` call and starts our application. You
+can follow the tree of `React.Components` from there to see the appliaction
+structure.
 
 ### Adding new Dependencies
 If you add a new dependency that you plan to `require` or `import` in a

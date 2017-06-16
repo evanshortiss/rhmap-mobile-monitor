@@ -19,8 +19,15 @@ class Menu extends React.Component <MenuComponentProps, undefined> {
     const menu = (
       <div className="menu colors rh-lighter-grey bg">
         <ul>
-          <li onClick={() => this.navigateTo('/environments')}><i className="dashboard icon"></i> Resource Usage</li>
-          <li onClick={() => this.navigateTo('/newsfeed')}><i className="feed icon"></i> Status Reports</li>
+          <li onClick={() => this.navigateTo('/environments')}>
+            <i className="dashboard icon"></i> Domain Overview
+          </li>
+          <li onClick={() => this.navigateTo('/newsfeed')}>
+            <i className="feed icon"></i> Status Reports
+          </li>
+          <li onClick={() => this.navigateTo('/cloud-apps')}>
+            <i className="cloud icon"></i> Cloud Applications
+          </li>
         </ul>
       </div>
     );

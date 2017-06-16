@@ -52,12 +52,14 @@ export function init (datasets: Array<{ name: string, frequency?: string }>, use
 
     // Setup our sync loop for each dataset our application requires
     datasets.forEach((d => {
+      const query = { username };
+      const meta = { username };
+      const opts = {
+        sync_frequency: d.frequency || 60
+      };
+
       // TODO: callbacks, meta, query
-      $fh.sync.manage(d.name, {
-        sync_frequency: d.frequency || 30
-      }, {
-        username: username
-      }, {}, function () {
+      $fh.sync.manage(d.name, opts, query, meta, function () {
         console.log(d.name + ' is now managed by sync');
       });
     }));

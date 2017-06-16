@@ -13,6 +13,24 @@
   font-family: overpass !important;
 }
 
+.ui.icon.input input {
+  padding-right: 3vw !important;
+}
+
+.cloud-applications .ui.left.action.icon.input {
+  padding: 1em;
+  width: 95%;
+}
+
+.cloud-applications .ui.left.action button {
+  width: 70%;
+}
+
+.cloud-applications .ui.left.action input {
+  width: 36%;
+}
+
+
 .menu-enter {
   transform: translate3d(-70vw, 0, 0);
   -webkit-transform: translate3d(-70vw, 0, 0);
@@ -37,10 +55,36 @@
   -webkit-transition: transform 150ms ease-out;
 }
 
-.newsfeed .entry {
+.cloud-applications .entry.cloud-app span {
+  vertical-align: middle;
+  font-size: 10pt;
+}
+
+.list-view .entry {
   color: #0e0e0e;
-  padding: 1em 1em 2em;
+  padding: 1em 1em 1.25em;
   border-bottom: 1px solid #aaa;
+}
+
+.newsfeed .entry .description {
+  overflow: hidden;
+  transition: all 200ms;
+  transition-timing-function: ease-in-out;
+  -webkit-transition: all 200ms;
+  -webkit-transition-timing-function: ease-in-out;
+}
+
+.newsfeed .entry .description .text {
+  border-top: solid 0.1em #aaa;
+  padding-top: 2vh;
+}
+
+.newsfeed .entry .description.closed {
+  max-height: 0;
+}
+
+.newsfeed .entry .description.open {
+  max-height: 100vh;
 }
 
 .newsfeed .entry h3 {
@@ -49,9 +93,10 @@
   overflow: hidden;
 }
 .menu {
+  top: 10vh;
   position: absolute;
   width: 70vw;
-  height: 100vh;
+  height: 90vh;
   background: red;
   z-index: 100;
   box-shadow: 1px 0px 15px #333;
@@ -254,10 +299,6 @@ input {
   margin: 4vw 3vw;
 }
 
-.app-header.ios .sk-circle {
-  top: 3.5vh;
-}
-
 .app-header small {
   margin: 2px 10px;
   color: white;
@@ -282,9 +323,9 @@ input {
   -webkit-transition-property: transform;
 }
 
-.app-header .menu-icon:hover {
-  transform: rotateZ(360deg);
-  -webkit-transform: rotateZ(360deg);
+.app-header .menu-icon.active {
+  transform: rotateZ(630deg);
+  -webkit-transform: rotateZ(630deg);
 }
 
 .app-container {
@@ -292,7 +333,6 @@ input {
   height: 90vh;
   overflow-y: scroll;
   overflow-x: hidden;
-  color:rgb(70, 70, 70);
   background: white;
 
   /* allow the bounce effect in iOS - more like a native application */
@@ -358,151 +398,24 @@ input {
   padding-bottom: 0;
 }
 
-.environment .ui.dropdown {
+.environment-selector .ui.dropdown {
   border-radius: 0.3em;
   width: 32vw;
   margin: 1vh 0 0 69vw;
   color: white;
 }
 
-.environment select {
+.environment-selector select {
   border: 0;
-  margin-left: 67vw;
-  margin-top: 2vh;
-  margin-bottom: 2vh;
-  width: 35vw;
-  font-size: 13pt;
+  margin-top: 1vh;
+  width: 29vw;
+  font-size: 12pt;
   color: white !important;
   padding: 0.3em 0 0.3em 0.25em;
   -webkit-appearance: none;
   appearance: none;
 }
 
-
-
-
-
-
-.sk-circle {
-  width: 28px;
-  height: 28px;
-  position: fixed;
-  top: 2.5vh;
-  right: 2vh;
-  color: white;
-}
-.sk-circle .sk-child {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-.sk-circle .sk-child:before {
-  content: '';
-  display: block;
-  margin: 0 auto;
-  width: 15%;
-  height: 15%;
-  background-color:white;
-  border-radius: 100%;
-  -webkit-animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
-          animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
-}
-.sk-circle .sk-circle2 {
-  -webkit-transform: rotate(30deg);
-      -ms-transform: rotate(30deg);
-          transform: rotate(30deg); }
-.sk-circle .sk-circle3 {
-  -webkit-transform: rotate(60deg);
-      -ms-transform: rotate(60deg);
-          transform: rotate(60deg); }
-.sk-circle .sk-circle4 {
-  -webkit-transform: rotate(90deg);
-      -ms-transform: rotate(90deg);
-          transform: rotate(90deg); }
-.sk-circle .sk-circle5 {
-  -webkit-transform: rotate(120deg);
-      -ms-transform: rotate(120deg);
-          transform: rotate(120deg); }
-.sk-circle .sk-circle6 {
-  -webkit-transform: rotate(150deg);
-      -ms-transform: rotate(150deg);
-          transform: rotate(150deg); }
-.sk-circle .sk-circle7 {
-  -webkit-transform: rotate(180deg);
-      -ms-transform: rotate(180deg);
-          transform: rotate(180deg); }
-.sk-circle .sk-circle8 {
-  -webkit-transform: rotate(210deg);
-      -ms-transform: rotate(210deg);
-          transform: rotate(210deg); }
-.sk-circle .sk-circle9 {
-  -webkit-transform: rotate(240deg);
-      -ms-transform: rotate(240deg);
-          transform: rotate(240deg); }
-.sk-circle .sk-circle10 {
-  -webkit-transform: rotate(270deg);
-      -ms-transform: rotate(270deg);
-          transform: rotate(270deg); }
-.sk-circle .sk-circle11 {
-  -webkit-transform: rotate(300deg);
-      -ms-transform: rotate(300deg);
-          transform: rotate(300deg); }
-.sk-circle .sk-circle12 {
-  -webkit-transform: rotate(330deg);
-      -ms-transform: rotate(330deg);
-          transform: rotate(330deg); }
-.sk-circle .sk-circle2:before {
-  -webkit-animation-delay: -1.1s;
-          animation-delay: -1.1s; }
-.sk-circle .sk-circle3:before {
-  -webkit-animation-delay: -1s;
-          animation-delay: -1s; }
-.sk-circle .sk-circle4:before {
-  -webkit-animation-delay: -0.9s;
-          animation-delay: -0.9s; }
-.sk-circle .sk-circle5:before {
-  -webkit-animation-delay: -0.8s;
-          animation-delay: -0.8s; }
-.sk-circle .sk-circle6:before {
-  -webkit-animation-delay: -0.7s;
-          animation-delay: -0.7s; }
-.sk-circle .sk-circle7:before {
-  -webkit-animation-delay: -0.6s;
-          animation-delay: -0.6s; }
-.sk-circle .sk-circle8:before {
-  -webkit-animation-delay: -0.5s;
-          animation-delay: -0.5s; }
-.sk-circle .sk-circle9:before {
-  -webkit-animation-delay: -0.4s;
-          animation-delay: -0.4s; }
-.sk-circle .sk-circle10:before {
-  -webkit-animation-delay: -0.3s;
-          animation-delay: -0.3s; }
-.sk-circle .sk-circle11:before {
-  -webkit-animation-delay: -0.2s;
-          animation-delay: -0.2s; }
-.sk-circle .sk-circle12:before {
-  -webkit-animation-delay: -0.1s;
-          animation-delay: -0.1s; }
-
-@-webkit-keyframes sk-circleBounceDelay {
-  0%, 80%, 100% {
-    -webkit-transform: scale(0);
-            transform: scale(0);
-  } 40% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-  }
-}
-
-@keyframes sk-circleBounceDelay {
-  0%, 80%, 100% {
-    -webkit-transform: scale(0);
-            transform: scale(0);
-  } 40% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-  }
+.ios .environment-selector select {
+  margin-top: 2vh;
 }

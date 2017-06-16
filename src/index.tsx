@@ -1,12 +1,13 @@
+
 import * as React from 'react';
 import { render } from 'react-dom'
-import { Router, Redirect, Route, Link } from 'react-router';
 import { Provider } from 'react-redux';
-import history = require('./history-engine');
-import store from './store';
 
+import store from './store';
 import { Root } from './components/Root';
 
+// This removes the click delay from certain device webviews
+// Details are here - https://github.com/ftlabs/fastclick
 import * as fastclick from 'fastclick';
 fastclick(document.body);
 

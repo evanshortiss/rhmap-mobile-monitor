@@ -11,6 +11,8 @@ import {
   SyncDatasetAction
 } from '../../interfaces/sync';
 
+import xtend = require('xtend');
+
 
 /**
  * We're probably going to end up syncing a few different datasets so we should
@@ -38,8 +40,12 @@ export function createSyncReducer (dataset: string) {
           records: payload.records
         };
       case SYNC_UPDATE_RECORD:
-        state.records[payload.guid] = payload.record;
-        return state;
+        const newState = xtend({}, state);
+        newState.records[payload.guid] = {
+          data: payload.record
+        };
+
+        return newState;
       case SYNC_CREATE_RECORD:
         state.records[payload.guid] = payload.record;
         return state;

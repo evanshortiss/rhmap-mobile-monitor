@@ -1,56 +1,57 @@
 import * as React from 'react';
-import * as util from '../util';
+import { dismissKeyboard } from '../util';
 import * as auth from '../auth';
 import * as sync from '../sync';
 import * as la from '../actions/loader';
+import { connect } from 'react-redux';
+import { setUser, setEnvironment } from '../actions/config';
+import { GlobalState } from '../interfaces/global';
 import store from '../store';
 import historyEngine = require('../history-engine');
 
 interface LoginViewState {
-  loginEnabled: boolean
   username: string
   password: string
 }
 
-export class LoginView extends React.Component <undefined, LoginViewState> {
+interface LoginViewProps {
+  environments: Array<string>
+}
+
+class LoginView extends React.Component <LoginViewProps, LoginViewState> {
   constructor () {
     super()
 
     this.state = {
-      loginEnabled: false,
       username: '',
       password: ''
     };
   }
 
   doLogin (e: any) {
+    const self = this;
+
     e.preventDefault();
 
     // If user pressed "enter" the keyboard/cursor might stay active on mobile
     // This hacky function will ensure it gets dismissed
-    util.dismissKeyboard();
+    dismissKeyboard();
 
     const { username, password } = this.state;
 
     store.dispatch(la.showLoading(`Login ${username}`));
 
     auth.performFhAuth(username, password)
+      .then(() => store.dispatch(setUser(username)))
       .then(() => store.dispatch(la.updateMessage('Initialising user session')))
-      .then(() => sync.init([{name: 'resources'}, {name: 'newsfeed'}], username))
+      .then(() => sync.init([{name: 'resources'}, {name: 'newsfeed'}, {name: 'userprefs'}], username))
+      .then(() => store.dispatch(setEnvironment(self.props.environments[0])))
       .then(() => historyEngine.push('/environments'))
       .catch((e) => {
         console.log(e.stack);
         alert('Login failed. ' + e.toString());
       })
       .finally(() => store.dispatch(la.hideLoading()));
-  }
-
-  onUsernameChange(e: any) { // TODO - should type these correctly...
-    this.setState({username: e.target.value} as LoginViewState);
-  }
-
-  onPasswordChange(e: any) {
-    this.setState({password: e.target.value} as LoginViewState);
   }
 
   render() {
@@ -63,7 +64,7 @@ export class LoginView extends React.Component <undefined, LoginViewState> {
               type="email"
               required
               value={this.state.username}
-              onChange={(e) => { this.onUsernameChange(e) }}
+              onChange={(e) => { this.setState({username: e.target.value}) }}
               name="username"
               placeholder="you@acme.com"/>
           </div>
@@ -73,7 +74,7 @@ export class LoginView extends React.Component <undefined, LoginViewState> {
               type="password"
               required
               value={this.state.password}
-              onChange={(e) => { this.onPasswordChange(e) }}
+              onChange={(e) => { this.setState({password: e.target.value}) }}
               name="password"/>
           </div>
           <div className="centered">
@@ -86,3 +87,12 @@ export class LoginView extends React.Component <undefined, LoginViewState> {
     );
   }
 }
+
+
+function mapStateToProps ( state: GlobalState ): LoginViewProps {
+  return {
+    environments: Object.keys(state.resources.records)
+  }
+}
+
+export default connect(mapStateToProps)(LoginView);

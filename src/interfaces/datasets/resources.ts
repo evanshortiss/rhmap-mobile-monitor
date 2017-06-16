@@ -1,5 +1,7 @@
 
-interface FHApp {
+import { SyncDatasetState } from '../sync';
+
+export interface FHApp {
   cpu: number
   disk: number
   guid: string
@@ -47,4 +49,10 @@ export interface FHEnvironment {
     ts: number
   }
   hash: string
+}
+
+export interface ResourcesDataset extends SyncDatasetState {
+  records: {
+    [key: string]: FHEnvironment
+  }
 }

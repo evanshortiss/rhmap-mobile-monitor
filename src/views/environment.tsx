@@ -1,85 +1,57 @@
+
 import * as React from 'react';
+import * as moment from 'moment';
 import { connect } from 'react-redux';
 import { GlobalState } from '../interfaces/global';
-import * as moment from 'moment';
-import {
-  EnvironmentViewProps,
-  EnvironmentViewState
-} from '../interfaces/views';
+import { FHEnvironment } from '../interfaces/datasets/resources'
+import ResourceThresholds from '../components/domain-resources';
 
-// TODO - better typing? ¯\_(ツ)_/¯
-const APP_STATES = {
-  SUSPENDED: 'SUSPENDED',
-  RUNNING: 'RUNNING',
-  STOPPED: 'STOPPED'
-};
+
+interface EnvironmentViewProps {
+  selectedEnv?: string
+  resources: {
+    // support for multiple environment keys, e.g "acme-dev", "acme-test"
+    [key: string]: FHEnvironment
+  }
+}
+
+interface EnvironmentViewState {
+  selectedEnv: string
+}
+
+
+type AppState  = 'SUSPENDED' | 'RUNNING' | 'STOPPED';
+
 
 class EnvironmentView extends React.Component <EnvironmentViewProps, EnvironmentViewState> {
-  constructor (props: EnvironmentViewProps) {
-    super();
-
-    function getProdEnv () {
-      return Object.keys(props.resources).filter((env) => {
-        return env.toLowerCase().indexOf('prod') !== -1;
-      })[0];
-    }
-
-    this.state = {
-      selectedEnv: props.params.env || getProdEnv() || Object.keys(props.resources)[0]
-    };
-  }
-  getAppsInState (state: string) {
-    const env = this.state.selectedEnv;
+  getAppsInState (state: AppState) {
+    const env = this.props.selectedEnv;
     const resources = this.props.resources[env].data;
 
     return resources.apps.filter((app) => {
       return app.state.toUpperCase() === state;
     })
   }
-  onEnvChange(e: any) {
-    this.setState({
-      selectedEnv: e.target.value
-    });
-  }
   render() {
-    const selectedEnv = this.state.selectedEnv;
+    const selectedEnv = this.props.selectedEnv;
     const resources = this.props.resources[selectedEnv].data.resources;
-
-    // Resources is an object with keys, where each key is an environment
-    const envOptions = Object.keys(this.props.resources).map((e) => {
-      let isSelected = false;
-
-      if (e === selectedEnv) {
-        isSelected = true;
-      }
-
-      return (
-        <option
-          key={e}
-          selected={isSelected}
-          value={e}>{e.toUpperCase()}
-        </option>
-      );
-    });
 
     return (
       <div className="environment">
 
-        <select onChange={this.onEnvChange.bind(this)} className="colors rh-green bg">
-          {envOptions}
-        </select>
-
+        <br/>
         <div className="ui padded grid">
           <div>
             <p>As of {moment(this.props.resources[selectedEnv].data.ts).format('dddd MMMM Do, hh:mm:ss a')}</p>
           </div>
           <div className="sixteen wide column">
-            <h3 style={{marginBottom: '0.2em'}} className="header colors">
+            <h3 className="header colors">
               <i className="disk outline icon"></i>
               Resource Usage
             </h3>
           </div>
         </div>
+
         <div className="ui padded grid">
           <div className="centered four wide column">
             <div className="value">
@@ -114,11 +86,11 @@ class EnvironmentView extends React.Component <EnvironmentViewProps, Environment
             </div>
           </div>
         </div>
-        <div className="ui inverted divider"></div>
 
+        <div className="ui inverted divider"></div>
         <div className="ui padded grid">
           <div className="sixteen wide column">
-            <h3 style={{marginBottom: '0.2em'}} className="header colors">
+            <h3 className="header colors">
               <i className="power icon"></i>
               Application State
             </h3>
@@ -127,7 +99,7 @@ class EnvironmentView extends React.Component <EnvironmentViewProps, Environment
         <div className="ui padded grid">
           <div className="centered four wide column">
             <div className="value">
-              <h2>{this.getAppsInState(APP_STATES.RUNNING).length}</h2>
+              <h2>{this.getAppsInState('RUNNING').length}</h2>
             </div>
             <div className="label">
               <h4>Active</h4>
@@ -135,7 +107,7 @@ class EnvironmentView extends React.Component <EnvironmentViewProps, Environment
           </div>
           <div className="centered four wide column">
             <div className="value">
-              <h2>{this.getAppsInState(APP_STATES.SUSPENDED).length}</h2>
+              <h2>{this.getAppsInState('SUSPENDED').length}</h2>
             </div>
             <div className="label">
               <h4>Suspended</h4>
@@ -143,7 +115,7 @@ class EnvironmentView extends React.Component <EnvironmentViewProps, Environment
           </div>
           <div className="centered four wide column">
             <div className="value">
-              <h2>{this.getAppsInState(APP_STATES.STOPPED).length}</h2>
+              <h2>{this.getAppsInState('STOPPED').length}</h2>
             </div>
             <div className="label">
               <h4>Stopped</h4>
@@ -152,15 +124,17 @@ class EnvironmentView extends React.Component <EnvironmentViewProps, Environment
         </div>
         <div className="ui inverted divider"></div>
 
+        <ResourceThresholds/>
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps( state: GlobalState ): EnvironmentViewProps {
   return {
     // Inject resources into props for the component
-    resources: state.resources.records
+    resources: state.resources.records,
+    selectedEnv: state.config.environment
   } as EnvironmentViewProps;
 }
 

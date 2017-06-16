@@ -1,13 +1,12 @@
 
 import Promise = require('bluebird');
-
-declare var $fh: any;
+import { auth, getFHParams } from 'fh-js-sdk';
 
 export function performFhAuth (username: string, password: string) {
   return new Promise((resolve, reject) => {
-    $fh.auth({
+    auth({
       policyId: 'MonitorAuth',
-      clientToken: $fh.getFHParams().appid,
+      clientToken: getFHParams().appid,
       params: {
         userId: username,
         password: password

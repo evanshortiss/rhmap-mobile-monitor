@@ -7,15 +7,20 @@ import Promise = require('bluebird');
 export const SYNC_UPDATE_RECORD = 'SYNC_UPDATE_RECROD';
 export const updateRecord: ThunkAction <void, void, {dataset: string, guid: string, record: Object}> =
 (dispatch, getState, args) => {
-    return $fh.sync.doUpdate(args.dataset, args.guid, args.record)
-      .then(() => dispatch({
-        type: SYNC_UPDATE_RECORD,
-        payload: {
-          dataset: args.dataset,
-          guid: args.guid,
-          record: args.record
-        }
-      }));
+    return new Promise((resolve, reject) => {
+      $fh.sync.doUpdate(args.dataset, args.guid, args.record, () => {
+        dispatch({
+          type: SYNC_UPDATE_RECORD,
+          payload: {
+            dataset: args.dataset,
+            guid: args.guid,
+            record: args.record
+          }
+        });
+
+        resolve();
+      }, reject);
+    });
   };
 
 export const SYNC_LOAD_DATASET = 'SYNC_LOAD_DATASET';
