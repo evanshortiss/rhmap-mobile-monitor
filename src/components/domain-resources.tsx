@@ -34,10 +34,10 @@ interface ResourceUsageThresholdViewState {
 }
 
 class ResourceUsageThresholdView extends React.Component <ResourceUsageThresholdViewProps, ResourceUsageThresholdViewState> {
-  constructor (props: any) {
+  constructor (props: ResourceUsageThresholdViewProps) {
     super(props);
     this.state = {
-      thresholds: defaultConfig,
+      thresholds: props.thresholds.notificationConfigs.global[props.selectedEnv] || cloneDeep(defaultConfig)
     };
   }
 

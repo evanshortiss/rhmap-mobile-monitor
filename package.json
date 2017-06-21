@@ -11,6 +11,7 @@
     "compile-ts": "npm run tsc && npm run bundle",
     "compile-vendor": "browserify -o www/dist/vendor.js -r lodash -r fh-js-sdk -r react-router-redux -r jquery -r react-addons-css-transition-group -r fastclick -r bluebird -r moment -r redux -r redux-thunk -r redux-logger -r react-redux -r xtend -r react-dom -r react -r react-router",
     "tsc": "tsc",
+    "install": "npm run compile",
     "cordova": "cordova",
     "ios-sim": "npm run compile && cordova run ios --emulator",
     "android-sim": "npm run compile && cordova platform add android ; cordova run android --emulator",
